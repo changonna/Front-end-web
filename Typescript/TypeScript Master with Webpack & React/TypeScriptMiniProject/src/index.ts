@@ -26,7 +26,7 @@
 
 
 
-const btn = document.getElementById("btn"); // [info] const btn: HTMLElement | null
+let btn = document.getElementById("btn"); // [info] const btn: HTMLElement | null
 console.log(btn);
 console.dir(btn); // [[Prototype]]:HTMLButtonElement  JS는 객체가 프로토타입 체인에 있다
 
@@ -73,8 +73,8 @@ let input = document.getElementById("todoinput")!; // [info] const input: HTMLEl
 const button2 = document.getElementById("btn")! as HTMLButtonElement;
 const input2 = document.getElementById("todoinput")! as HTMLInputElement; 
 button2.addEventListener("click", () => {
-    alert(input2.value);
-    input2.value = "";
+    // alert(input2.value);
+    // input2.value = "";
 });
 
 
@@ -84,5 +84,91 @@ button2.addEventListener("click", () => {
 
 
 
+// event 다루기
+let form = document.querySelector("form")!;
+form.addEventListener("submit", (e) => { // [info] (parameter) e: SubmitEvent
+    e.preventDefault();
+    console.log("submitted");
+});
+
+// const handleSubmit = (e) => { // (parameter) e: any
+const handleSubmit2 = (e: SubmitEvent) => { // 타입추가 (parameter) e: SubmitEvent
+    e.preventDefault();
+    console.log("SUBMITTED");
+}
+
+
+
+
+
+
+
+
+const btn5 = document.getElementById("btn")! as HTMLButtonElement;
+const input5 = document.getElementById("todoinput")! as HTMLInputElement;
+const form5 = document.querySelector("form")!;
+const list5 = document.getElementById("todolist");
+
+interface Todo {
+    text: string;
+    completed: boolean;
+}
+
+const todos: Todo[] = readTodos();
+todos.forEach(createTodo);
+
+// localStrage 불러오기
+// const readTodos = (): Todo[] => {
+function readTodos(): Todo[] {
+    const todoJSON = localStorage.getItem("todos");
+    if(todoJSON == null) return [];
+    console.log(JSON.parse(todoJSON));
+
+    return JSON.parse(todoJSON);
+}
+
+// 
+function saveTodos() {
+    localStorage.setItem("todos", JSON.stringify(todos));
+}
 
 // to-do list 만들기
+const handleSubmit = (e: SubmitEvent) => {
+    e.preventDefault();
+
+    const newTodo: Todo = {
+        text: input5.value,
+        completed: false
+    };
+    createTodo(newTodo);
+    todos.push(newTodo);
+    
+    saveTodos();
+
+    input5.value = "";
+}
+
+function createTodo(todo: Todo) {
+    const newLi = document.createElement("li");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox"; // checkbox type 설정
+    checkbox.checked = todo.completed;
+
+    // checkbox event.
+    checkbox.addEventListener('change', function() {
+        todo.completed = checkbox.checked;
+        saveTodos();
+    });
+
+    newLi.append(todo.text);
+    newLi.append(checkbox);
+    list5?.append(newLi);
+}
+
+form5.addEventListener("submit", handleSubmit);
+
+
+
+
+
+// local storage에 연결하기
