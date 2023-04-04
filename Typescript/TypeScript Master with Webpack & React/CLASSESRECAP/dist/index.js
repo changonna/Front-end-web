@@ -1,116 +1,115 @@
-// A Recap of JS Classes
-
-// 클래스
+"use strict";
+// 1. TypeScript에서 Class Anotation 처리하기
+// 2. Class Fields
+// 3. readonly Class Property
+// 4. public
+// 5. private
+// 6. parameter property 단축 구문
+// 7. getter, setter
+// 8. protected
+// 9. class and interface
+// 10. Abstract Class
+// class Player {
+//     // 프로퍼티 type 설정
+//     public readonly first: string; // readonly
+//     public readonly last: string;
+//     private score: number = 0; // private
+//     // parameter에 type 설정
+//     constructor(first: string, last: string) {
+//         this.first = first;
+//         this.last = last;
+//     }
+//     // private method
+//     private secretMethod(): void {
+//         console.log("SECRET METHOD!!");
+//     }
+// }
+// const elton = new Player("Elton", "Steele");
+// elton.secretMethod();
 class Player {
-    // static : 프로퍼티나 메소드가 개별 인스턴스가 아닌 클래스 자체에 속한다.
-    // static fields 
-    static description = "Player In Our Game";
-
-    // class fileds
-    #score = 0;
-    // #으로 시작하면 private
-    #numLives = 10;
-    // constructors
-    constructor(first, last) {
+    // 파라미터 프로퍼티 단축 구문
+    constructor(first, last, _score, _protect) {
         this.first = first;
         this.last = last;
-        this.#secret();
+        this._score = _score;
+        this._protect = _protect;
     }
-
-    // static method : 특정 인스턴스와 관련 없으면서 클래스 자체와 연관된 기능을 클래스로 그룹화 할 수 있게 됩니다.
-    // : 주로 생성 메서드 혹은 새로운 인스턴스나 여러 인스턴스를 생성하는 헬퍼를 예로 들 수 있습니다.
-    static randomPlayer() {
-        return new Player("Andy", "Samberg");
+    get fullName() {
+        return `${this.first} ${this.last}`;
     }
-
     // getter
     get score() {
-        return this.#score;
+        return this._score;
     }
     // setter
     set score(newScore) {
         if (newScore < 0) {
-            throw new Error("Score must be positive!");
+            throw new Error("Score cannot be negative!");
         }
-        this.#score = newScore;
+        this._score = newScore;
     }
-
-    // getter
-    get fullName() {
-        return `${this.first} ${this.last}`;
+}
+const elton = new Player("Elton", "Steele", 200, 300);
+elton.fullName;
+elton.score = 123;
+class SuperPlayer extends Player {
+    constructor() {
+        super(...arguments);
+        this.isAdmin = true;
     }
-    // setter
-    set fullName(newName) {
-        const [first, last] = newName.split(" ");
+    maxScore() {
+        // this._score = 9999999; // [error] private는 접근 불가능
+        this._protect = 9999999; // [success] protected는 접근 가능
+    }
+}
+class Bike {
+    constructor(color) {
+        this.color = color;
+    }
+}
+class Jacket {
+    constructor(brand, color) {
+        this.brand = brand;
+        this.color = color;
+    }
+    print() {
+        console.log(`${this.color} ${this.brand} jacket`);
+    }
+}
+const bike1 = new Bike("red");
+const jacket1 = new Jacket("Prada", "black");
+// abstract class
+// 1. 이 자체로는 더 이상 새 클리스를 만들 수 없다.
+// 패턴을 정의하고 자식 클래스에서 시행되야 하는 메서드를 정의하는데 사용된다.
+class Employee {
+    constructor(first, last) {
         this.first = first;
         this.last = last;
     }
-
-
-
-    getScore() {
-        return this.#score; // private은 이런식으로 접근 가능.
-    }
-    updateScore(newScore) {
-        this.#score = newScore;
-    }
-
-    // method
-    taunt() {
-        console.log("BOOYAH!");
-    }
-    loseLife() {
-        this.numLives -= 1;
-    }
-    // private method
-    #secret() {
-        console.log("SECRET!!!");
+    greet() {
+        console.log("HELLO!");
     }
 }
-
-const player1 = new Player("blue", "steele");
-player1.taunt();
-// console.log(player1.first);
-// console.log(player1.last);
-// console.log(player1);
-// console.log(player1.getScore());
-// console.log(player1.updateScore(22));
-// console.log(player1.getScore());
-
-// console.log(player1.fullName);
-// console.log(player1.score);
-// // player1.score = -25;
-// player1.score = 25;
-// console.log(player1.score);
-
-// console.log(player1.fullName);
-// player1.fullName = "Amy Admas";
-// console.log(player1.fullName);
-
-
-// const player2 = new Player("charlie", "brown");
-// player2.taunt();
-
-
-
-// private # fileds
-
-
-
-
-// static : 해당 프로퍼티나 메서드가 클래스 자체에 존재하며
-// 개별 인스턴스에는 없다고 알려준다.
-
-
-// extends
-class AdminPlayer extends Player {
-    isAdmin = true;
-    constructor(first, last, powers) {
-        // super : super Class에 있는 constructor() 함수를 참조. 
+class FullTimeEmployee extends Employee {
+    constructor(first, last, salary) {
         super(first, last);
-        this.powers = powers;
+        this.salary = salary;
     }
-    
+    getPay() {
+        return this.salary;
+    }
 }
- 
-const admin = new AdminPlayer("admin", "mCadmin", ["delete", "restore world"]);
+class PartTimeEmployee extends Employee {
+    constructor(first, last, hourlyRate, hoursWorked) {
+        super(first, last);
+        this.hourlyRate = hourlyRate;
+        this.hoursWorked = hoursWorked;
+    }
+    getPay() {
+        return this.hourlyRate * this.hoursWorked;
+    }
+}
+const betty = new FullTimeEmployee("Betty", "White", 95000);
+console.log(betty.getPay());
+const bill = new PartTimeEmployee("Bill", "Billerson", 24, 1100);
+console.log(bill.getPay());
