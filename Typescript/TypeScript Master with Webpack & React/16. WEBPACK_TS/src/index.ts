@@ -1,7 +1,7 @@
 import Dog from "./Dog";
 import ShelterDog from "./ShelterDog";
 import { add, multiply, divide } from "./utils";
-console.log("FROM INDEX FILE!");
+console.log("FROM INDEX FILE!!!!!!!!!!!!!!!!!");
 
 const elton = new Dog("Elton", "Aussie", 0.5);
 elton.bark();
