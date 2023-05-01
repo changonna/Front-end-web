@@ -1,10 +1,5 @@
 import react from "react";
-
-interface Item {
-    id: number;
-    product: string;
-    quantity: number;
-}
+import Item from "../models/item";
 
 interface ShoppingListProps {
     items: Item[]; // items를 아이템[배열]로 받는다
