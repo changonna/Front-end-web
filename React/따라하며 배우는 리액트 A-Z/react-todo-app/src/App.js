@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React from "react";
 import "./App.css";
 
-export default class App extends Component {
+export default function App() {
 
   // 변수로 css 설정
   btnStyle = {
@@ -62,26 +62,24 @@ export default class App extends Component {
     this.setState({ todoData: newTodoData });
   }
 
-  render() {
-    return (
-      <div className="container">
-        <div className="todoBlock">
-          <div className="title">
-            <h1>할 일 목록</h1>
-          </div>
-          {this.state.todoData.map((data) => (
-              <div style={this.getStyle(data.completed)} key={data.id}>
-                <input type="checkbox" defaultChecked={false} onChange={() => this.handleCompleteChange(data.id)} />
-                  {data.title}                {/* 클릭 이벤트 발생시 함수 호출 */}
-                <button style={this.btnStyle} onClick={() => this.handleClick(data.id)}>x</button>
-              </div>
-          ))}
-          <form style={{ display: 'flex' }} onSubmit={this.handleSubmit}>
-            <input type="text" name="value" style={{ flex: "10", padding: "5px" }} placeholder="해야 할 일을 입력하세요." value={this.state.value} onChange={this.handleChange}/>
-            <input type="submit" value="입력" className="btn" style={{ flex: "1" }} />
-          </form>
+  return (
+    <div className="container">
+      <div className="todoBlock">
+        <div className="title">
+          <h1>할 일 목록</h1>
         </div>
+        {this.state.todoData.map((data) => (
+            <div style={this.getStyle(data.completed)} key={data.id}>
+              <input type="checkbox" defaultChecked={false} onChange={() => this.handleCompleteChange(data.id)} />
+                {data.title}                {/* 클릭 이벤트 발생시 함수 호출 */}
+              <button style={this.btnStyle} onClick={() => this.handleClick(data.id)}>x</button>
+            </div>
+        ))}
+        <form style={{ display: 'flex' }} onSubmit={this.handleSubmit}>
+          <input type="text" name="value" style={{ flex: "10", padding: "5px" }} placeholder="해야 할 일을 입력하세요." value={this.state.value} onChange={this.handleChange}/>
+          <input type="submit" value="입력" className="btn" style={{ flex: "1" }} />
+        </form>
       </div>
-    )
-  }
+    </div>
+  );
 }
