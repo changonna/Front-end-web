@@ -27,23 +27,7 @@ const List = React.memo(({
     });
 
     setTodoData(newTodoData);
-  }
-
-  const getStyle = (completed) => {
-    return {
-      padding: "10px",
-      borderBottom: "1px #ccc dotted",
-      textDecoration: completed ? "line-through" : "none"
-    }
-  }
-
-  const btnStyle = {
-    color: "#fff",
-    border: "none",
-    padding: "5px 9px",
-    borderRadius: "50%",
-    cursor: "pointer",
-    float: "right"
+    localStorage.setItem('todoData', JSON.stringify(newTodoData));
   }
 
   /* 4. editing 입력할때 editedTitle State 변경 */
@@ -63,6 +47,7 @@ const List = React.memo(({
       return data;
     });
     setTodoData(newTodoData);
+    localStorage.setItem('todoData', JSON.stringify(newTodoData));
     setIsEditing(false);
   }
 
@@ -70,27 +55,30 @@ const List = React.memo(({
   if (isEditing) {
     // edting시 UI
     return (
-      <div className={`flex items-center justify-between w-full bg-gray-100 px-4 py-1 my-2 text-gray-600 rounded`}>
-        <div style={getStyle(completed)} key={id}>
+      <div className="flex items-center justify-between w-full px-4 py-1 my-1 text-gray-600 bg-gray-100 border rounded row">
+        <div key={id}>
           <form onSubmit={handleSubmit}>
             <input
+              className="w-full px-3 py-2 mr-4 text-gray-500 appearance-none"
               value={editedTitle}
               onChange={handleEditChange}
-              className="w-full px-3 py-2 mr-4 text-gray-500 rounded"
             />
           </form>
-          <button
-            style={btnStyle}
-            onClick={() => setIsEditing(false)}
-          >
-            x
-          </button>
-          <button onClick={handleSubmit}
-            className="px-4 py-2 float-right"
-            type='submit'
-          >
-            save
-          </button>
+          <div className="items-center">
+            <button
+              class="px-4 py-2 float-right"
+              onClick={() => setIsEditing(false)}
+            >
+              x
+            </button>
+            <button 
+              onClick={handleSubmit}
+              class="px-4 py-2 float-right"
+              type='submit'
+            >
+              save
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -100,18 +88,20 @@ const List = React.memo(({
         {...provided.draggableProps}
         ref={provided.innerRef}
         {...provided.dragHandleProps}
-        className={`${snapshot.isDragging ? "bg-gray-400" : "bg-gray-100"
-          } flex items-center justify-between w-full px-4 py-1 my-2 text-gray-600 rounded`}
-      >
-        <div style={getStyle(completed)} key={id}>
-          <input type="checkbox" defaultChecked={false} onChange={() => handleCompleteChange(id)} />
-          {title}                {/* 클릭 이벤트 발생시 함수 호출 */}
-          <button style={btnStyle} onClick={() => handleClick(id)}>x</button>
+        className={`${snapshot.isDragging ? "bg-gray-400" : "bg-gray-100"} flex items-center justify-between w-full px-4 py-1 my-2 text-gray-600 bg-gray-100 border rounded`}>
+        <div className="items-center" key={id}>
+          <input 
+            type="checkbox" 
+            defaultChecked={completed} 
+            onChange={() => handleCompleteChange(id)} 
+          />{" "}
+          <span className={completed ? "line-through" : undefined}>{title}</span>
+        </div>
+        <div className="item-center">
+          <button 
+            onClick={() => handleClick(id)} className="float-right px-4 py-2">x</button>
           {/* 2. Edit 버튼 추가 & 클릭시 isEdting State 변경 */}
-          <button
-            className="px-4 py-2 float-right"
-            onClick={() => setIsEditing(true)}
-          >
+          <button onClick={() => setIsEditing(true)} className="float-right px-4 py-2">
             edit
           </button>
         </div>
