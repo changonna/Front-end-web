@@ -5,7 +5,6 @@ import "./Banner.css";
 import styled from 'styled-components';
 
 export default function Banner() {
-
   const [movie, setMovie] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
 
@@ -25,7 +24,7 @@ export default function Banner() {
     // movieDetail이라는 이름으로 결과를 저장한다.
     const {data: movieDetail} = await axios.get(`movie/${movieId}`,{
       // 보내는 Parameter
-      params: { append_to_response: "video" },
+      params: { append_to_response: "videos" },
     });
     // movie 상세정보 설정
     setMovie(movieDetail);
@@ -55,7 +54,7 @@ export default function Banner() {
           </h1>
   
           <div className="banner__buttons">
-            {/* movie의 video가 없으면 버튼 감추기 */}
+            {/* movie의 videos가 없으면 버튼 감추기 */}
             { movie.videos ?
               <button
                 className="banner__button play"
@@ -98,7 +97,7 @@ const Iframe = styled.iframe`
   width: 100%;
   height: 100%;
   z-index: -1;
-  opacity: 0.65;
+  opacity: 1;
   border: none;
 
   &::after {

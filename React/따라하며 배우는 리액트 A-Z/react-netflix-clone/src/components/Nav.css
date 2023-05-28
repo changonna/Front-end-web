@@ -17,6 +17,7 @@
 }
 
 .nav__logo {
+    cursor: pointer;
     position: fixed;
     left: 40px;
     width: 80px;
