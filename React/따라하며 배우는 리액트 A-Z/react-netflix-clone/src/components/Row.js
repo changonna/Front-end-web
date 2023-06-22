@@ -18,6 +18,7 @@ export default function Row({ title, isLargeRow, id, fetchUrl }) {
     setMovies(request.data.results);
   }
 
+  // 영화 클릭시(자세히 보기)
   const handleClick = (movie) => {
     setModalOpen(true);
     setMovieSelected(movie);
@@ -42,7 +43,7 @@ export default function Row({ title, isLargeRow, id, fetchUrl }) {
               className={`row__poster ${isLargeRow && "row__posterLarge"}`}
               src={`https://image.tmdb.org/t/p/original/${isLargeRow ? movie.poster_path : movie.backdrop_path}`}
               alt={movie.name}
-              onClick={() => handleClick(movie)}
+              onClick={() => handleClick(movie)} // 클릭시 이벤트 함수 실행
             />
           ))}
         </div>
@@ -56,7 +57,7 @@ export default function Row({ title, isLargeRow, id, fetchUrl }) {
 
       {
         // modalOpen이 true일때, MovieModal을 보여준다.
-        modalOpen && (
+        modalOpen && ( // props로 movie정보와, setModalOpen을 넘겨준다.
           <MovieModal {...movieSelected} setModalOpen={setModalOpen} />
         )
       }
