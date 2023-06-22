@@ -8,7 +8,7 @@ export default function Row({ title, isLargeRow, id, fetchUrl }) {
   useEffect(() => {
     fetchMovieData();
   }, []);
-
+  
   const fetchMovieData = async () => {
     const request = await axios.get(fetchUrl);
     console.log(request);
@@ -17,12 +17,17 @@ export default function Row({ title, isLargeRow, id, fetchUrl }) {
   
   return (
     <section className='row'>
+      {/** TITLE */}
       <h2>{title}</h2>
       <div className="slider">
         <div className="slider__arrow-left">
-          <span className='arrow'>{"<"}</span>
+          <span className='arrow'
+          onClick={() => {
+            document.getElementById(id).scrollLeft -= window.innerWidth - 80;
+          }}>{"<"}</span>
         </div>
     <div id={id} className='row__posters'>
+      {/**SEVERAL ROW__POSTER */}
       {movies.map((movie) => (
         <img
           key={movie.id}
@@ -33,7 +38,10 @@ export default function Row({ title, isLargeRow, id, fetchUrl }) {
       ))}
     </div>
         <div className="slider__arrow-right">
-          <span className='arrow'>{">"}</span>
+          <span className='arrow'
+          onClick={() => {
+            document.getElementById(id).scrollLeft += window.innerWidth - 80;
+          }}>{">"}</span>
         </div>
       </div>
     </section>
