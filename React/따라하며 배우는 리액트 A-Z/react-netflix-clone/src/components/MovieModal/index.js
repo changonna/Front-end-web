@@ -15,6 +15,7 @@ function MovieModal({
     <div className='presentation'>
       <div className='wrapper-modal'>
         <div className='modal'>
+          {/** x클릭시 modalOpen false로 변경하여 끄기 **/}
           <span onClick={() => setModalOpen(false)} className='modal-close'>
             X
           </span>
