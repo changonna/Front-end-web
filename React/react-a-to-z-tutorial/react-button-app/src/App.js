@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
 
@@ -23,7 +22,7 @@ function App() {
             onClick={() => {
               setDisabled((prev) => !prev);
             }}
-          ></button>
+          >on/off</button>
         </div>
       </header>
     </div>
