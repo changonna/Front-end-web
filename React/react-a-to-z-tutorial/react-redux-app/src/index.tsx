@@ -13,12 +13,6 @@ const root = ReactDOM.createRoot(
 
 const store = createStore(rootReducer);
 
-store.dispatch({
-  type: "ADD_TODO",
-  text: "Use Redux",
-});
-console.log("store.getState()", store.getState());
-
 const render = () =>
   root.render(
     <React.StrictMode>

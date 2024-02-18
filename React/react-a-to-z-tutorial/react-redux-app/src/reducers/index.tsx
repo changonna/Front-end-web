@@ -8,3 +8,6 @@ const rootReducer = combineReducers({
 })
 
 export default rootReducer;
+
+// Root Reducer에 RootState 타입 생성
+export type RootState = ReturnType<typeof rootReducer>;
